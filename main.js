@@ -36,9 +36,9 @@ const getFreeBalanceAndLending = async (coin = 'USD') => {
     console.log(e.message)
   }
 }
-
+console.log('Before job instantiation')
 const job = new CronJob('7 * * * *', function () {
   getFreeBalanceAndLending()
 })
+console.log('After job instantiation')
 job.start()
-getFreeBalanceAndLending()
