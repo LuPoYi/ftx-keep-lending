@@ -1,0 +1,5 @@
+.env
+yarn-error.log
+tmp/
+
+**.log

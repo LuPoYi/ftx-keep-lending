@@ -1,0 +1,17 @@
+{
+  "name": "ftx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cron": "^1.8.2",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "ftx-api-rest": "^0.0.6"
+  }
+}
