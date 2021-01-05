@@ -26,7 +26,7 @@ const getFreeBalanceAndLending = async (coins) => {
           path: '/spot_margin/offers',
           data: {
             coin: coin,
-            size: parseFloat(total).toFixed(6),
+            size: parseFloat(total).toFixed(7).slice(0, -1),
             rate: 0.000005, // minimun hourly rate => (4.38% / year)
           },
         })
