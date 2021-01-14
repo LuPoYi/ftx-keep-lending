@@ -9,6 +9,8 @@ const ftx = new FTXRest({
   subaccount: process.env.FTX_SUB_ACCOUNT,
 })
 
+const roundDown6DecimalPlaces = (number) => Math.floor((num + Number.EPSILON) * 1000000) / 1000000
+
 const getFreeBalanceAndLending = async (coins) => {
   try {
     const getBalancesResult = await ftx.request({
@@ -17,22 +19,22 @@ const getFreeBalanceAndLending = async (coins) => {
     })
 
     for (const coin of coins) {
-      let { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
-      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total)
+      const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
+      const fixTotal = roundDown6DecimalPlaces(total)
+      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total, '=>', fixTotal)
 
       if (total > 0) {
-        total = parseFloat(total).toFixed(7).slice(0, -1)
         const offersResult = await ftx.request({
           method: 'POST',
           path: '/spot_margin/offers',
           data: {
             coin: coin,
-            size: total,
+            size: fixTotal,
             rate: 0.000005, // minimun hourly rate => (4.38% / year)
           },
         })
 
-        console.log(new Date(), 'offersResult', offersResult, total)
+        console.log(new Date(), 'offersResult', offersResult, fixTotal)
       }
     }
   } catch (e) {
