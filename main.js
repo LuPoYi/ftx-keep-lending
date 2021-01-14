@@ -9,7 +9,8 @@ const ftx = new FTXRest({
   subaccount: process.env.FTX_SUB_ACCOUNT,
 })
 
-const roundDown6DecimalPlaces = (number) => Math.floor((num + Number.EPSILON) * 1000000) / 1000000
+const roundDown6DecimalPlaces = (number) =>
+  Math.floor((number + Number.EPSILON) * 1000000) / 1000000
 
 const getFreeBalanceAndLending = async (coins) => {
   try {
