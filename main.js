@@ -18,20 +18,21 @@ const getFreeBalanceAndLending = async (coins) => {
 
     for (const coin of coins) {
       const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
-      console.log(new Date(), coins, 'freeBalance', free, 'totalBalance', total)
+      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total)
 
       if (total > 0) {
+        total = parseFloat(total).toFixed(7).slice(0, -1)
         const offersResult = await ftx.request({
           method: 'POST',
           path: '/spot_margin/offers',
           data: {
             coin: coin,
-            size: parseFloat(total).toFixed(7).slice(0, -1),
+            size: total,
             rate: 0.000005, // minimun hourly rate => (4.38% / year)
           },
         })
 
-        console.log(new Date(), 'offersResult', offersResult)
+        console.log(new Date(), 'offersResult', offersResult, total)
       }
     }
   } catch (e) {
