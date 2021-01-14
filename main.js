@@ -17,7 +17,7 @@ const getFreeBalanceAndLending = async (coins) => {
     })
 
     for (const coin of coins) {
-      const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
+      let { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
       console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total)
 
       if (total > 0) {
