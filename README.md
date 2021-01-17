@@ -7,6 +7,15 @@
 
 - `node main.js`
 
+## Use docker-compose
+
+``` bash
+$ docker-compose up -d  //start  
+```
+
+``` bash
+$ docker-compose down --rmi all //down  
+```
 
 ### MEMO
 
