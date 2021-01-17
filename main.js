@@ -28,7 +28,7 @@ const getFreeBalanceAndLending = async (coins) => {
       let fixTotal = roundDown6DecimalPlaces(total)
       console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total, '=>', fixTotal)
 
-      if (total > 0) {
+      if (fixTotal && fixTotal > 0) {
         // keep balance
         if (keepBalance) {
           fixTotal = fixTotal - parseFloat(keepBalance)
@@ -56,7 +56,7 @@ const getFreeBalanceAndLending = async (coins) => {
 let leading_coins = LENDING_COIN ? LENDING_COIN.split(',') : ['USD']
 
 console.log('Before job instantiation')
-const job = new CronJob('*/1 * * * *', function () {
+const job = new CronJob('45 * * * *', function () {
   getFreeBalanceAndLending(leading_coins)
 })
 console.log('After job instantiation')
