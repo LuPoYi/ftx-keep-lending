@@ -9,9 +9,12 @@ const {
   FTX_API_SECRET: secret,
   FTX_SUB_ACCOUNT: subaccount,
   LENDING_COIN,
-} = process.env;
+} = process.env
 
-const ftx = new FTXRest({ key, secret, subaccount});
+const ftx = new FTXRest({ key, secret, subaccount })
+
+const roundDown6DecimalPlaces = (number) =>
+  Math.floor((number + Number.EPSILON) * 1000000) / 1000000
 
 const getFreeBalanceAndLending = async (coins) => {
   try {
@@ -21,16 +24,15 @@ const getFreeBalanceAndLending = async (coins) => {
     })
 
     for (const coin of coins) {
-      const { free, total } = getBalancesResult.result.find((item) => item.coin === coin) || {};
-      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total);
+      const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
+      let fixTotal = roundDown6DecimalPlaces(total)
+      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total, '=>', fixTotal)
 
       if (total > 0) {
-
         // keep balance
-        let size = total;
         if (keepBalance) {
-          size = total - parseFloat(keepBalance);
-          console.log(`keepBalance: ${keepBalance}, final lending balance: ${size}`);
+          fixTotal = fixTotal - parseFloat(keepBalance)
+          console.log(`keepBalance: ${keepBalance}, final lending balance: ${fixTotal}`)
         }
 
         const offersResult = await ftx.request({
@@ -38,12 +40,12 @@ const getFreeBalanceAndLending = async (coins) => {
           path: '/spot_margin/offers',
           data: {
             coin: coin,
-            size: parseFloat(size).toFixed(7).slice(0, -1),
+            size: fixTotal,
             rate: 0.000005, // minimun hourly rate => (4.38% / year)
           },
         })
 
-        console.log(new Date(), 'offersResult', offersResult)
+        console.log(new Date(), 'offersResult', offersResult, fixTotal)
       }
     }
   } catch (e) {
@@ -51,11 +53,11 @@ const getFreeBalanceAndLending = async (coins) => {
   }
 }
 
-let leading_coins = LENDING_COIN ? LENDING_COIN.split(',') : ['USD'];
+let leading_coins = LENDING_COIN ? LENDING_COIN.split(',') : ['USD']
 
 console.log('Before job instantiation')
-const job = new CronJob('45 * * * *', function () {
-  getFreeBalanceAndLending(leading_coins);
-});
+const job = new CronJob('*/1 * * * *', function () {
+  getFreeBalanceAndLending(leading_coins)
+})
 console.log('After job instantiation')
 job.start()
