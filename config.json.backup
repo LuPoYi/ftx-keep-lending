@@ -1,0 +1,18 @@
+{
+  "FTX_API_KEY": "YOUR_FTX_API_KEY",
+  "FTX_API_SECRET": "YOUR_FTX_API_SECRET",
+  "CRON_JOB_AT_MINUTE": 30,
+  "accounts": [
+    {
+      "sub_accounts": "", /* keep this empty if you use default account 'Main Account' */
+      "lending": [
+        { "coin": "USD", "keep_balance": 0 },
+        { "coin": "USDT", "keep_balance": 1000 }
+      ]
+    },
+    {
+      "SUB_ACCOUNT": "1INCN",
+      "lending": [{ "coin": "1INCN", "keep_balance": 0 }]
+    }
+  ]
+}

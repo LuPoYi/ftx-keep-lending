@@ -1,33 +1,32 @@
 const FTXRest = require('ftx-api-rest')
 const CronJob = require('cron').CronJob
-const dotenv = require('dotenv')
-dotenv.config()
+const config = require('./config.json')
+const { FTX_API_KEY, FTX_API_SECRET, CRON_JOB_AT_MINUTE, accounts } = config
+const cronExpression = `${CRON_JOB_AT_MINUTE} * * * *`
 
-const {
-  KEEP_BALANCE: keepBalance,
-  FTX_API_KEY: key,
-  FTX_API_SECRET: secret,
-  FTX_SUB_ACCOUNT: subaccount,
-  LENDING_COIN,
-} = process.env
+const roundDownWithDecimals = (number, decimals = 8) =>
+  Math.floor((number + Number.EPSILON) * 10 ** decimals) / 10 ** decimals
 
-const ftx = new FTXRest({ key, secret, subaccount })
+const lendingAll = async (accounts) => {
+  for (const { subAccount, lendingCoins } of accounts) {
+    await getFreeBalanceAndLending(subAccount, lendingCoins)
+  }
+}
 
-const roundDown6DecimalPlaces = (number) =>
-  Math.floor((number + Number.EPSILON) * 1000000) / 1000000
+const getFreeBalanceAndLending = async (subAccount, lendingCoins) => {
+  const ftx = new FTXRest({ key: FTX_API_KEY, secret: FTX_API_SECRET, subaccount: subAccount })
 
-const getFreeBalanceAndLending = async (coins) => {
   try {
     const getBalancesResult = await ftx.request({
       method: 'GET',
       path: '/wallet/balances',
     })
 
-    for (const coin of coins) {
+    for (const { coin, keepBalance } of lendingCoins) {
       const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
-      let fixTotal = roundDown6DecimalPlaces(total)
-      console.log(new Date(), coin, 'freeBalance', free, 'totalBalance', total, '=>', fixTotal)
 
+      let fixTotal = roundDownWithDecimals(total)
+      console.log(new Date(), coin, 'getBalance', total, '=>', fixTotal, 'freeBalance', free)
       if (fixTotal && fixTotal > 0) {
         // keep balance
         if (keepBalance) {
@@ -41,11 +40,10 @@ const getFreeBalanceAndLending = async (coins) => {
           data: {
             coin: coin,
             size: fixTotal,
-            rate: 0.000005, // minimun hourly rate => (4.38% / year)
+            rate: 0.000002, // minimun hourly rate => (4.38% / year)
           },
         })
-
-        console.log(new Date(), 'offersResult', offersResult, fixTotal)
+        console.log(new Date(), coin, 'offersResult', offersResult, fixTotal)
       }
     }
   } catch (e) {
@@ -53,11 +51,9 @@ const getFreeBalanceAndLending = async (coins) => {
   }
 }
 
-let leading_coins = LENDING_COIN ? LENDING_COIN.split(',') : ['USD']
-
-console.log('Before job instantiation')
-const job = new CronJob('45 * * * *', function () {
-  getFreeBalanceAndLending(leading_coins)
+console.log(`CronJob Before Set -> ${cronExpression}`)
+const job = new CronJob(cronExpression, function () {
+  lendingAll(accounts)
 })
-console.log('After job instantiation')
+console.log(`CronJob After Set -> ${cronExpression}`)
 job.start()
