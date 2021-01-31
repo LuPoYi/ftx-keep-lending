@@ -9,7 +9,31 @@
 
 - `node main.js`
 
-## Use docker-compose
+### config.json
+
+```json
+// minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
+{
+  "FTX_API_KEY": "YOUR_FTX_API_KEY",
+  "FTX_API_SECRET": "YOUR_FTX_API_SECRET",
+  "CRON_JOB_AT_MINUTE": 30,
+  "accounts": [
+    {
+      "subAccount": "",
+      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001 }]
+    },
+    {
+      "subAccount": "LENDING",
+      "lendingCoins": [
+        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
+        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }
+      ]
+    }
+  ]
+}
+```
+
+### Use docker-compose
 
 ```bash
 $ docker-compose up -d  //start

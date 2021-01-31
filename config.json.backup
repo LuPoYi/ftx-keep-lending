@@ -4,15 +4,15 @@
   "CRON_JOB_AT_MINUTE": 30,
   "accounts": [
     {
-      "sub_accounts": "", /* keep this empty if you use default account 'Main Account' */
-      "lending": [
-        { "coin": "USD", "keep_balance": 0 },
-        { "coin": "USDT", "keep_balance": 1000 }
-      ]
+      "subAccount": "",
+      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001 }]
     },
     {
-      "SUB_ACCOUNT": "1INCN",
-      "lending": [{ "coin": "1INCN", "keep_balance": 0 }]
+      "subAccount": "LENDING",
+      "lendingCoins": [
+        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
+        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }
+      ]
     }
   ]
 }

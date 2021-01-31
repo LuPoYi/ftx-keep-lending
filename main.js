@@ -22,7 +22,7 @@ const getFreeBalanceAndLending = async (subAccount, lendingCoins) => {
       path: '/wallet/balances',
     })
 
-    for (const { coin, keepBalance } of lendingCoins) {
+    for (const { coin, keepBalance, minimunHourlyRate } of lendingCoins) {
       const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
 
       let fixTotal = roundDownWithDecimals(total)
@@ -40,7 +40,7 @@ const getFreeBalanceAndLending = async (subAccount, lendingCoins) => {
           data: {
             coin: coin,
             size: fixTotal,
-            rate: 0.000002, // minimun hourly rate => (4.38% / year)
+            rate: minimunHourlyRate,
           },
         })
         console.log(new Date(), coin, 'offersResult', offersResult, fixTotal)
