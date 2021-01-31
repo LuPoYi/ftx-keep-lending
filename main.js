@@ -22,7 +22,7 @@ const getFreeBalanceAndLending = async (subAccount, lendingCoins) => {
       path: '/wallet/balances',
     })
 
-    for (const { coin, keepBalance, minimunHourlyRate } of lendingCoins) {
+    for (const { coin, keepBalance, minimunHourlyRate = 0.000001 } of lendingCoins) {
       const { free, total } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
 
       let fixTotal = roundDownWithDecimals(total)
@@ -57,3 +57,5 @@ const job = new CronJob(cronExpression, function () {
 })
 console.log(`CronJob After Set -> ${cronExpression}`)
 job.start()
+
+lendingAll(accounts)
