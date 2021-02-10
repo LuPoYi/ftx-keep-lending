@@ -33,7 +33,7 @@ FTX - lending all available balance(USD/USDT) per hour using crontab
       "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001 }]
     },
     {
-      "subAccount": "LENDING",
+      "subAccount": "MY_SUB_ACCOUNT",
       "lendingCoins": [
         { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
         { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }
@@ -42,6 +42,7 @@ FTX - lending all available balance(USD/USDT) per hour using crontab
   ]
 }
 ```
+If you use default account 'Main Account', set subAccount to emtpy string  `"subAccount": ""`
 
 > minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
 
