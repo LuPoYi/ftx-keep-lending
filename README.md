@@ -4,7 +4,7 @@
 
 - `cp config.json.backup config.json`
 
-  - change .env by using your own api key, secret and set which coin you want to keep leading
+  - change `config.json` by using your own api key, secret and set which coin you want to keep leading
   - > Support multiple sub account with multiple coin
 
 - `node main.js`
