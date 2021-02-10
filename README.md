@@ -1,3 +1,5 @@
+FTX - lending all available balance(USD/USDT) per hour using crontab
+
 ## How to use
 
 - Upgrade Node.js to 14.x
