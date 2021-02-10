@@ -17,6 +17,8 @@
 
 - `node main.js`
 
+  - use `tmux`, `screen` or `docker` to keep the process running.
+
 ### config.json
 
 // minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
