@@ -19,8 +19,9 @@
 
 ### config.json
 
-```json
 // minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
+
+```json
 {
   "FTX_API_KEY": "YOUR_FTX_API_KEY",
   "FTX_API_SECRET": "YOUR_FTX_API_SECRET",
