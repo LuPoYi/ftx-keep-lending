@@ -8,7 +8,7 @@
       "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }]
     },
     {
-      "subAccount": "LENDING",
+      "subAccount": "MY_SUB_ACCOUNT",
       "lendingCoins": [
         { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
         { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }

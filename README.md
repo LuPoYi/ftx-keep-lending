@@ -1,20 +1,29 @@
+FTX - lending all available balance(USD/USDT) per hour using crontab
+
 ## How to use
+
+- Upgrade Node.js to 14.x
+
+```
+   sudo apt update
+   curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+   sudo apt-get install -y nodejs
+   node -v
+```
 
 - `yarn`
 
 - `cp config.json.backup config.json`
 
-  - change .env by using your own api key, secret and set which coin you want to keep leading
-  - > Support multiple sub account with multiple coin
+  - change `config.json` by using your own api key, secret and set which subaccount and coins you want to keep leading
 
 - `node main.js`
+
+  - use `tmux`, `screen` or `docker` to keep the process running.
 
 ### config.json
 
 ```json
-// minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
-// if you get 'Size too large' very often, try to set "decimals": 6
-
 {
   "FTX_API_KEY": "YOUR_FTX_API_KEY",
   "FTX_API_SECRET": "YOUR_FTX_API_SECRET",
@@ -27,7 +36,7 @@
       ]
     },
     {
-      "subAccount": "LENDING",
+      "subAccount": "MY_SUB_ACCOUNT",
       "lendingCoins": [
         { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
         { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 , "decimals": 8 }
@@ -35,6 +44,22 @@
     }
   ]
 }
+```
+
+- If you use default account 'Main Account', set subAccount to emtpy string `"subAccount": ""`
+- If you get 'Size too large' very often, try to set `"decimals": 6`
+
+> minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
+
+### Result example
+
+```js
+2021-02-10T09:40:00.229Z USD getBalance 261.742728 => 261.742728 freeBalance 0.23926331
+2021-02-10T09:40:00.306Z USD offersResult { result: null, success: true } 261.742728
+2021-02-10T09:40:00.394Z ETH getBalance 1.78598968 => 1.78598968 freeBalance 0.00013262
+2021-02-10T09:40:00.495Z ETH offersResult { result: null, success: true } 1.78598968
+2021-02-10T09:40:00.588Z 1INCH getBalance 620.37422189 => 620.37422188 freeBalance 0.0473561
+2021-02-10T09:40:00.677Z 1INCH offersResult { result: null, success: true } 620.37422188
 ```
 
 ### Use docker-compose
