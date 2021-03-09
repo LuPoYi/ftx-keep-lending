@@ -13,6 +13,8 @@
 
 ```json
 // minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
+// if you get 'Size too large' very often, try to set "decimals": 6
+
 {
   "FTX_API_KEY": "YOUR_FTX_API_KEY",
   "FTX_API_SECRET": "YOUR_FTX_API_SECRET",
@@ -20,13 +22,15 @@
   "accounts": [
     {
       "subAccount": "",
-      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001 }]
+      "lendingCoins": [
+        { "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
+      ]
     },
     {
       "subAccount": "LENDING",
       "lendingCoins": [
-        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
-        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }
+        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
+        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 , "decimals": 8 }
       ]
     }
   ]

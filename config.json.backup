@@ -5,7 +5,7 @@
   "accounts": [
     {
       "subAccount": "",
-      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001 }]
+      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }]
     },
     {
       "subAccount": "LENDING",
