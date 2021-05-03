@@ -23,6 +23,13 @@ FTX - lending all available balance(USD/USDT) per hour using crontab
 
 ### config.json
 
+* Use your own `YOUR_FTX_API_KEY` `YOUR_FTX_API_SECRET`
+* Update which coin you want to lend `lendingCoins` 
+   * `"lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }]`
+* Update which coin you want to stake (FTT UBXT SRM FIDA SOL RAY)
+   * `"stakingCoins": [{ "coin": "SOL", "keepBalance": 0 }]`
+
+
 ```json
 {
   "FTX_API_KEY": "YOUR_FTX_API_KEY",
@@ -33,7 +40,8 @@ FTX - lending all available balance(USD/USDT) per hour using crontab
       "subAccount": "",
       "lendingCoins": [
         { "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
-      ]
+      ],
+      "stakingCoins": [{ "coin": "SOL", "keepBalance": 0 }]
     },
     {
       "subAccount": "MY_SUB_ACCOUNT",
