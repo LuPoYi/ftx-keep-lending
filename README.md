@@ -1,4 +1,5 @@
-FTX - lending all available balance(USD/USDT) per hour using crontab
+FTX - **Lending** or **staking** all available balance per hour using crontab - Hourly Compounding
+
 
 ## How to use
 
@@ -15,7 +16,7 @@ FTX - lending all available balance(USD/USDT) per hour using crontab
 
 - `cp config.json.backup config.json`
 
-  - change `config.json` by using your own api key, secret and set which subaccount and coins you want to keep leading
+  - change `config.json` by using your own `api key`, `secret` and set up which `subaccount` and `lendingCoins` and `stakingCoins` you want.
 
 - `node main.js`
 
