@@ -4,16 +4,18 @@
   "CRON_JOB_AT_MINUTE": 30,
   "accounts": [
     {
-      "subAccount": "",
-      "lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }]
+      "subAccount": "YOUR_LENDING_ALL_SUB_ACCOUNT",
+      "isLendingAllCoins": true,
     },
     {
-      "subAccount": "MY_SUB_ACCOUNT",
+      "subAccount": "YOUR_SUB_ACCOUNT",
+      "isLendingAllCoins": false,
       "lendingCoins": [
         { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
-        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 }
+        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001, "decimals": 8 }
       ],
-      "stakingCoins": [{ "coin": "SOL", "keepBalance": 0 }]
-    }
+      "stakingCoins": [{ "coin": "SOL" }]
+    },
+
   ]
 }

@@ -1,15 +1,14 @@
 FTX - **Lending** or **staking** all available balance per hour using crontab - Hourly Compounding
 
-
 ## How to use
 
 - Upgrade Node.js to 14.x
 
-```
-   sudo apt update
-   curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-   sudo apt-get install -y nodejs
-   node -v
+```zsh
+sudo apt update
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+sudo apt-get install -y nodejs
+node -v
 ```
 
 - `yarn`
@@ -22,14 +21,15 @@ FTX - **Lending** or **staking** all available balance per hour using crontab - 
 
   - use `tmux`, `screen` or `docker` to keep the process running.
 
-### config.json
+### Set up your config.json
 
-* Use your own `YOUR_FTX_API_KEY` `YOUR_FTX_API_SECRET`
-* Update which coin you want to lend:
-   * `"lendingCoins": [{ "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }]`
-* Update which coin you want to stake (FTT UBXT SRM FIDA SOL RAY):
-   * `"stakingCoins": [{ "coin": "SOL", "keepBalance": 0 }]`
-
+- Use your own `YOUR_FTX_API_KEY` `YOUR_FTX_API_SECRET`
+- Set up `subAccount`
+- Update which coin you want to lend
+  - if you want to lend all coins of this sub account, you can just set `"isLendingAllCoins": true`
+  - or if you want specific coins to lend, you should set it like this: `"lendingCoins": [{ "coin": "ETH"}]`
+- Update which coin you want to stake (only FTT UBXT SRM FIDA SOL RAY):
+  - `"stakingCoins": [{ "coin": "SOL" }, { "coin": "RAY" }]`
 
 ```json
 {
@@ -38,27 +38,27 @@ FTX - **Lending** or **staking** all available balance per hour using crontab - 
   "CRON_JOB_AT_MINUTE": 30,
   "accounts": [
     {
-      "subAccount": "",
-      "lendingCoins": [
-        { "coin": "ETH", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
-      ],
-      "stakingCoins": [{ "coin": "SOL", "keepBalance": 0 }]
+      "subAccount": "YOUR_LENDING_ALL_SUB_ACCOUNT",
+      "isLendingAllCoins": true
     },
     {
-      "subAccount": "MY_SUB_ACCOUNT",
+      "subAccount": "YOUR_SUB_ACCOUNT",
+      "isLendingAllCoins": false,
       "lendingCoins": [
-        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001, "decimals": 8 }
-        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001 , "decimals": 8 }
-      ]
+        { "coin": "SNX", "keepBalance": 0, "minimunHourlyRate": 0.000001 },
+        { "coin": "1INCH", "keepBalance": 10, "minimunHourlyRate": 0.000001, "decimals": 8 }
+      ],
+      "stakingCoins": [{ "coin": "SOL" }]
     }
   ]
 }
 ```
 
+### Notes
+
 - If you use default account 'Main Account', set subAccount to emtpy string `"subAccount": ""`
 - If you get 'Size too large' very often, try to set `"decimals": 6`
-
-> minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
+- minimun Hourly Rate 0.000001% => Minimum Yearly Rate 0.8760%
 
 ### Result example
 
@@ -71,22 +71,15 @@ FTX - **Lending** or **staking** all available balance per hour using crontab - 
 2021-02-10T09:40:00.677Z 1INCH offersResult { result: null, success: true } 620.37422188
 ```
 
-### Use docker-compose
+## Others
+
+docker-compose
 
 ```bash
 $ docker-compose up -d  //start
-```
-
-```bash
 $ docker-compose down --rmi all //down
 ```
 
-### MEMO
-
 if annual rate is 10%, use hourly compounding you will get 10.5%
-
 if annual rate is 20%, use hourly compounding you will get 22.1%
-
 if annual rate is 30%, use hourly compounding you will get 34.9%
-
-> idea: set 'isLendingAllCoins' is true that will stake every coin in this subaccount. If you transfer coin to this subaccount, it will be staked all of them.
