@@ -12,6 +12,7 @@
     "cron": "^1.8.2",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
-    "ftx-api-rest": "^0.0.6"
+    "ftx-api-rest": "^0.0.6",
+    "node-telegram-bot-api": "^0.54.0"
   }
 }

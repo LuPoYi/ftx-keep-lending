@@ -25,7 +25,24 @@ const stakeCoinAPI = async ({ ftx, coin, size }) =>
     },
   })
 
+const transferCoinAPI = async ({ ftx, coin, size, source, destination }) =>
+  await ftx.request({
+    method: 'POST',
+    path: '/subaccounts/transfer',
+    data: {
+      coin: coin,
+      size: size,
+      source: source,
+      destination: destination,
+    },
+  })
 const roundDownWithDecimals = (number, decimals = 8) =>
   Math.floor((number + Number.EPSILON) * 10 ** decimals) / 10 ** decimals
 
-module.exports = { getBalancesAPI, lendCoinAPI, stakeCoinAPI, roundDownWithDecimals }
+module.exports = {
+  getBalancesAPI,
+  lendCoinAPI,
+  stakeCoinAPI,
+  transferCoinAPI,
+  roundDownWithDecimals,
+}

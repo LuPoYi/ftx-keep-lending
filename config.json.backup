@@ -16,6 +16,11 @@
       ],
       "stakingCoins": [{ "coin": "SOL" }]
     },
-
-  ]
+  ],
+  "TELEGRAM_BOT_TOKEN": "",
+  "TELEGRAM_CHAT_ID": "",
+  "CRON_JOB_AT_MINUTE_MOVE_FUND": 35,
+  "moveFund": "USD",
+  "sourceAccount": "main",
+  "destinationAccount": "LENDING"
 }

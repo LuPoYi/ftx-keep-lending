@@ -1,9 +1,26 @@
 const FTXRest = require('ftx-api-rest')
 const CronJob = require('cron').CronJob
 const config = require('./config.json')
-const { FTX_API_KEY, FTX_API_SECRET, CRON_JOB_AT_MINUTE, accounts } = config
+const {
+  FTX_API_KEY,
+  FTX_API_SECRET,
+  CRON_JOB_AT_MINUTE,
+  accounts,
+  CRON_JOB_AT_MINUTE_MOVE_FUND,
+  moveFund,
+  sourceAccount,
+  destinationAccount,
+} = config
 const cronExpression = `${CRON_JOB_AT_MINUTE} * * * *`
-const { getBalancesAPI, lendCoinAPI, stakeCoinAPI, roundDownWithDecimals } = require('./helper.js')
+const cronExpressionMoveFund = `${CRON_JOB_AT_MINUTE_MOVE_FUND} * * * *`
+const {
+  getBalancesAPI,
+  lendCoinAPI,
+  stakeCoinAPI,
+  transferCoinAPI,
+  roundDownWithDecimals,
+} = require('./helper.js')
+const { sendMoveFundMessage } = require('./telegramBot')
 
 const lendingAll = async (accounts) => {
   for (const { subAccount, isLendingAllCoins, lendingCoins, stakingCoins } of accounts) {
@@ -80,9 +97,42 @@ const getFreeBalanceAndLending = async ({
   }
 }
 
-console.log(`CronJob Before Set -> ${cronExpression}`)
-const job = new CronJob(cronExpression, () => lendingAll(accounts))
-console.log(`CronJob After Set -> ${cronExpression}`)
-job.start()
+const getFreeBalanceAndMove = async () => {
+  const ftx = new FTXRest({ key: FTX_API_KEY, secret: FTX_API_SECRET })
 
-lendingAll(accounts)
+  try {
+    const getBalancesResult = await getBalancesAPI({ ftx })
+    const { free } = getBalancesResult?.result?.find((item) => item.coin === moveFund) || {}
+    if (!free) return
+
+    await transferCoinAPI({
+      ftx,
+      coin: moveFund,
+      size: free,
+      source: sourceAccount,
+      destination: destinationAccount,
+    })
+
+    sendMoveFundMessage({
+      source: sourceAccount,
+      destination: destinationAccount,
+      coin: moveFund,
+      size: free,
+    })
+  } catch (e) {
+    console.log(e.message)
+  }
+}
+
+// CronJob
+console.log(`Lending CronJob -> ${cronExpression}`)
+const job = new CronJob(cronExpression, () => lendingAll(accounts))
+job.start()
+console.log('Lending CronJob Set.')
+
+console.log(`Move Fund Cronjob -> ${cronExpressionMoveFund}`)
+const moveFundsJob = new CronJob(cronExpression, () => getFreeBalanceAndMove())
+moveFundsJob.start()
+console.log('Move Fund Cronjob Set.')
+
+// lendingAll(accounts)
