@@ -131,7 +131,7 @@ job.start()
 console.log('Lending CronJob Set.')
 
 console.log(`Move Fund Cronjob -> ${cronExpressionMoveFund}`)
-const moveFundsJob = new CronJob(cronExpression, () => getFreeBalanceAndMove())
+const moveFundsJob = new CronJob(cronExpressionMoveFund, () => getFreeBalanceAndMove())
 moveFundsJob.start()
 console.log('Move Fund Cronjob Set.')
 
