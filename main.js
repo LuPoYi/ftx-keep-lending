@@ -81,9 +81,7 @@ const getFreeBalanceAndLending = async ({
 }
 
 console.log(`CronJob Before Set -> ${cronExpression}`)
-const job = new CronJob(cronExpression, function () {
-  lendingAll(accounts)
-})
+const job = new CronJob(cronExpression, () => lendingAll(accounts))
 console.log(`CronJob After Set -> ${cronExpression}`)
 job.start()
 
