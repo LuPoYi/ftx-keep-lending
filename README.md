@@ -80,8 +80,6 @@ $ docker-compose up -d  //start
 $ docker-compose down --rmi all //down
 ```
 
-if annual rate is 10%, use hourly compounding you will get 10.5%
-if annual rate is 20%, use hourly compounding you will get 22.1%
-if annual rate is 30%, use hourly compounding you will get 34.9%
-
-> idea: set 'isLendingAllCoins' is true that will stake every coin in this subaccount. If you transfer coin to this subaccount, it will be staked all of them.
+* if annual rate is 10%, use hourly compounding you will get 10.5%
+* if annual rate is 20%, use hourly compounding you will get 22.1%
+* if annual rate is 30%, use hourly compounding you will get 34.9%
