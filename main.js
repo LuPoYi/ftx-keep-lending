@@ -70,7 +70,7 @@ const getFreeBalanceAndLending = async ({
         const fixFree = roundDownWithDecimals(free, decimals)
 
         console.log(new Date(), coin, 'free', free, fixFree)
-        await stakeCoinAPI({ coin, size: fixFree }).then((result) =>
+        await stakeCoinAPI({ ftx, coin, size: fixFree }).then((result) =>
           console.log(new Date(), coin, result)
         )
       }
