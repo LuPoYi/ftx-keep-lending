@@ -27,6 +27,20 @@ const getFreeBalanceAndLending = async ({
         )
       : lendingCoins
 
+    // staking: SRM, SOL...
+    if (stakingCoins) {
+      for (const { coin, decimals = 8 } of stakingCoins) {
+        const { free } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
+        if (!free) continue
+        const fixFree = roundDownWithDecimals(free, decimals)
+
+        console.log(new Date(), coin, 'free', free, fixFree)
+        await stakeCoinAPI({ coin, size: fixFree }).then((result) =>
+          console.log(new Date(), coin, result)
+        )
+      }
+    }
+
     // lending coins
     if (coins) {
       for (const { coin, keepBalance = 0, minimunHourlyRate = 0.000001, decimals = 8 } of coins) {
@@ -59,20 +73,6 @@ const getFreeBalanceAndLending = async ({
           size: fixTotal,
           rate: minimunHourlyRate,
         }).then((result) => console.log(new Date(), coin, result))
-      }
-    }
-
-    // staking: SRM, SOL...
-    if (stakingCoins) {
-      for (const { coin, decimals = 8 } of stakingCoins) {
-        const { free } = getBalancesResult?.result?.find((item) => item.coin === coin) || {}
-        if (!free) continue
-        const fixFree = roundDownWithDecimals(free, decimals)
-
-        console.log(new Date(), coin, 'free', free, fixFree)
-        await stakeCoinAPI({ coin, size: fixFree }).then((result) =>
-          console.log(new Date(), coin, result)
-        )
       }
     }
   } catch (e) {
